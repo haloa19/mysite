@@ -17,11 +17,12 @@
 				<form method="post" action="${ pageContext.request.contextPath }/board">
 					<input type="hidden" name="a" value="delete">
 					<input type='hidden' name="no" value=${ param.no }>
-					<input type='hidden' name="no" value=${ param.gNo }>
+					<input type='hidden' name="gNo" value=${ param.gNo }>
 					<label>비밀번호</label>
 					<input type="password" name="password">
 					<input type="submit" value="확인">
 				</form>
+				<c:if test="${'fail' eq result }"><p>비밀번호가 틀렸습니다.</p></c:if>
 				<a href="${ pageContext.request.contextPath }/board">게시판 리스트</a>
 			</div>
 		</div>

@@ -18,9 +18,7 @@ public class BoardModifyFormAction implements Action {
 		Long no = Long.parseLong(request.getParameter("no"));
 		
 		BoardVo boardVo = new BoardRepository().findByNo(no);
-
 		request.setAttribute("listNo", boardVo);
-		System.out.println("dkdk : " + boardVo);
 		
 		WebUtil.forward("/WEB-INF/views/board/modify.jsp", request, response);
 

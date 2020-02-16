@@ -20,11 +20,8 @@ public class BoardListAction implements Action {
 		// case1. 검색어가 있는 경우
 		// case2. 검색어가 없는 경우
 		int maxGroup = 0;
-		String keyword = request.getParameter("kwd");
-		System.out.println("처음 검색시  " + keyword);
-		
+		String keyword = request.getParameter("kwd");		
 		String keyword2 = request.getParameter("keyword");
-//		System.out.println("다음 검색시 : " + keyword2);
 	
 		if(keyword != null) { // 처음 검색해서 keyword가 존재하는 경우
 			maxGroup = new BoardRepository().findByKeyWordMaxGroup(keyword);
@@ -39,8 +36,7 @@ public class BoardListAction implements Action {
 		int nowPage = 1;
 		int beginPage = 1;
 		double totalPage = Math.ceil((double)maxGroup/5);
-		int endPage = (int)totalPage; // < 1 > or <1, 2>
-		
+		int endPage = (int)totalPage; // < 1 > or <1, 2>		
 		
 		if(request.getParameter("page") != null) { // 페이지 이동이 이었을 경우
 			nowPage = Integer.parseInt(request.getParameter("page"));
@@ -84,14 +80,12 @@ public class BoardListAction implements Action {
 		request.setAttribute("endPage", endPage);
 		request.setAttribute("totalPage", totalPage);
 		request.setAttribute("keyword", keyword);
-//		request.setAttribute("keyword", keyword);
 		
 		if(keyword != null) {
 			WebUtil.forward("/WEB-INF/views/board/searchlist.jsp", request, response);
 		} else {
 			WebUtil.forward("/WEB-INF/views/board/list.jsp", request, response);
 		}
-		
 
 	}
 

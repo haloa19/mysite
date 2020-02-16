@@ -16,7 +16,8 @@ public class BoardActionFactory extends ActionFactory {
 		case "deleteform" : return new BoardDeleteFormAction();
 		case "delete" : return new BoardDeleteAction();
 		default : return new BoardListAction();
-	}
+		}
+		
     }
 
 }

@@ -37,7 +37,6 @@ public class BoardInsertAction implements Action {
 			oNo = Integer.parseInt(request.getParameter("oNo"));
 			depth = Integer.parseInt(request.getParameter("depth"));
 			no = Long.parseLong((request.getParameter("no")));
-			System.out.println("here : " + gNo + oNo + depth);
 			
 			vo.setgNo(gNo);
 			vo.setoNo(oNo);

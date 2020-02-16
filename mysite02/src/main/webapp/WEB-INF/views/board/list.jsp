@@ -30,28 +30,53 @@
 						<th>&nbsp;</th>
 					</tr>	
 							
+					<c:set var="i" value="0"/>
 					<c:forEach items="${list }" var="vo" varStatus="status">
 						<tr>
-							<c:if test="${vo.depth == 0}">
-								<td>${status.count + 5*(nowPage-1)}</td>
-							</c:if>	
-							<c:if test="${vo.depth != 0 }">
+						<c:choose>
+							<c:when test="${vo.hit == -1 }">
+								<c:if test="${vo.depth == 0}">
+									<td>${groupNum - (i + 5*(nowPage-1))}</td>
+									<c:set var="i" value="${i+1 }"/>
+								</c:if>	
+								<c:if test="${vo.depth != 0 }">
+									<td></td>
+								</c:if>					
+								<td style="text-align:left; padding-left:${30*vo.depth}px">
+								<c:if test="${vo.depth > 0}">
+									<img src="${pageContext.request.contextPath }/assets/images/reply.png"/>
+								</c:if>삭제된 글입니다.</td>
 								<td></td>
-							</c:if>					
-							<td style="text-align:left; padding-left:${30*vo.depth}px">
-							<c:if test="${vo.depth > 0}">
-								<img src="${pageContext.request.contextPath }/assets/images/reply.png"/>
-							</c:if>
-							<a href="${ pageContext.request.contextPath }/board?a=view&no=${vo.no}">${vo.title }</a></td>
-							<td>${vo.name }</td>
-							<td>${vo.hit }</td>
-							<td>${vo.regDate }</td>		
-							<td>
-								<a href="${ pageContext.request.contextPath }/board?a=writeform&kind=addwrite&no=${vo.no }&gNo=${ vo.gNo }&oNo=${vo.oNo}&depth=${vo.depth}">댓글</a>	
-							</td>					
-							<c:if test="${ not empty authUser && authUser.no == vo.userNo }">
-								<td><a href="${pageContext.servletContext.contextPath }/board?a=deleteform&no=${vo.no }&gNo=${vo.gNo}" class="del">삭제</a></td>
-							</c:if>					
+								<td></td>
+								<td></td>		
+								<td></td>
+								<td></td>							
+							</c:when>
+							<c:otherwise>
+								<c:if test="${vo.depth == 0}">
+									<td>${groupNum - (i + 5*(nowPage-1))}</td>
+									<c:set var="i" value="${i+1 }"/>
+								</c:if>	
+								<c:if test="${vo.depth != 0 }">
+									<td></td>									
+								</c:if>					
+								<td style="text-align:left; padding-left:${30*vo.depth}px">
+								<c:if test="${vo.depth > 0}">
+									<img src="${pageContext.request.contextPath }/assets/images/reply.png"/>
+								</c:if>
+								<a href="${ pageContext.request.contextPath }/board?a=view&no=${vo.no}">${vo.title }</a></td>
+								<td>${vo.name }</td>
+								<td>${vo.hit }</td>
+								<td>${vo.regDate }</td>		
+								<td>
+									<a href="${ pageContext.request.contextPath }/board?a=writeform&kind=addwrite&no=${vo.no }&gNo=${ vo.gNo }&oNo=${vo.oNo}&depth=${vo.depth}">댓글</a>	
+								</td>					
+								<c:if test="${ not empty authUser && authUser.no == vo.userNo }">
+									<td><a href="${pageContext.servletContext.contextPath }/board?a=deleteform&no=${vo.no }&gNo=${vo.gNo}" class="del">삭제</a></td>
+								</c:if>	
+							</c:otherwise>
+						
+						</c:choose>				
 						</tr>					
 					</c:forEach>	
 					

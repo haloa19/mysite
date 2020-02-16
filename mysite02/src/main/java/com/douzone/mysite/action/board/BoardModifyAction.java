@@ -21,8 +21,7 @@ public class BoardModifyAction implements Action {
 		String title = request.getParameter("title");
 		String contents = request.getParameter("content");
 		
-		BoardVo boardVo = new BoardVo();
-		
+		BoardVo boardVo = new BoardVo();		
 		boardVo.setNo(no);
 		boardVo.setTitle(title);
 		boardVo.setContents(contents);

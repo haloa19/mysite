@@ -16,13 +16,9 @@ public class BoardViewAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		Long no = Long.parseLong(request.getParameter("no"));
-		
+		Long no = Long.parseLong(request.getParameter("no"));	
 		new BoardRepository().updateHitNum(no);
 		BoardVo boardVo = new BoardRepository().findByNo(no);
-	
-		System.out.println(no);
-		System.out.println(boardVo);
 
 		request.setAttribute("listNo", boardVo);
 		

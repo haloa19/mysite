@@ -20,7 +20,7 @@ public class BoardRepository {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		System.out.println("test : " + page + ":" + maxGroup);
+
 		try {
 
 			conn = getConnection();
@@ -93,7 +93,6 @@ public class BoardRepository {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		int maxGroup = maxGroupNum() + 1;	
-		System.out.println(maxGroup);
 		
 		try {
 			conn = getConnection();
@@ -105,8 +104,7 @@ public class BoardRepository {
 			pstmt.setString(1, vo.getTitle());
 			pstmt.setString(2, vo.getContents());
 			pstmt.setInt(3, maxGroup);
-			pstmt.setLong(4, vo.getUserNo());
-			
+			pstmt.setLong(4, vo.getUserNo());		
 			System.out.println();
 
 			int count = pstmt.executeUpdate();
@@ -148,8 +146,7 @@ public class BoardRepository {
 			pstmt.setInt(3, vo.getgNo());
 			pstmt.setInt(4,  vo.getoNo());
 			pstmt.setInt(5,  vo.getDepth());
-			pstmt.setLong(6, vo.getUserNo());
-			
+			pstmt.setLong(6, vo.getUserNo());			
 			System.out.println();
 
 			int count = pstmt.executeUpdate();
@@ -238,7 +235,7 @@ public class BoardRepository {
 					"from(\r\n" + 
 					"select *, @curRank := @curRank + 1 AS rank\r\n" + 
 					"from board, (SELECT @curRank := 0) r\r\n" + 
-					"where title like concat('%', ?, '%')\r\n" + 
+					"where title like concat('%', ?, '%') and hit != -1\r\n" + 
 					"order by reg_date) a join user b on a.user_no = b.no\r\n" + 
 					"where a.rank <= ? - 5 * (? - 1) and a.rank >= (? - 5 * (? -1)) -5 + 1\r\n" + 
 					"order by a.rank desc";
@@ -316,10 +313,8 @@ public class BoardRepository {
 			pstmt.setString(1, vo.getTitle());
 			pstmt.setString(2, vo.getContents());
 			pstmt.setLong(3, vo.getNo());
-
 			
 			int count = pstmt.executeUpdate();
-
 			result = count == 1;		
 
 		} catch (SQLException e) {
@@ -345,18 +340,11 @@ public class BoardRepository {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		try {
-
 			String correctPassword = findPassword(no);
 			if(password.equals(correctPassword)) {
-				
-				updateGno(no);
-				
-				// 게시판 밑에 페이징 숫자 업데이트 필요 처리완료
-				//int max = maxGroupNum();
-				
 				conn = getConnection();
 
-				String sql = "delete from board where no=?"; 
+				String sql = "update board set hit = -1 where no = ?"; 
 
 				pstmt = conn.prepareStatement(sql);
 
@@ -369,14 +357,6 @@ public class BoardRepository {
 				result = count == 1;
 
 			}
-			else {
-				System.out.println("비밀번호가 틀렸습니다");
-				return false;
-			}
-
-			int count = pstmt.executeUpdate();
-
-			result = count == 1;
 
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
@@ -396,6 +376,9 @@ public class BoardRepository {
 		
 	}
 	
+	/*
+	 * DB에서 완전히 지울때만 필요
+	 * */
 	private boolean updateGno(Long no) {
 		Boolean result = false;
 		Connection conn = null;
@@ -474,18 +457,7 @@ public class BoardRepository {
 			}
 
 		}
-		
-		
-		
-		
-//		List<BoardVo> list = new BoardRepository().findAll();
-//
-//		for(BoardVo vo : list) {
-//			if(vo.getNo() == no) {
-//				password = vo.getPassword();
-//				break;
-//			}
-//		}
+
 		return password;
 	}
 	
@@ -508,10 +480,6 @@ public class BoardRepository {
 				maxGroupNum = rs.getInt(1);
 			}
 			
-			
-			
-			System.out.println("ttt" + maxGroupNum);
-			
 
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
@@ -531,79 +499,16 @@ public class BoardRepository {
 		
 	}
 	
-	public int childONo(int oNo, int gNo, int depth, Long no) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		int newONo = 0;
-		
-		try {
-			conn = getConnection();
-
-			String sql = "select max(o_no) \r\n" + 
-					"from board\r\n" + 
-					"where g_no = ? and depth = ?"; 
-			
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, gNo);
-			pstmt.setInt(2, depth);
-
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				//System.out.println(rs.getInt(1));
-				
-				newONo = rs.getInt(1);
-			}
-			
-			String sql2 = "select o_no from board where no = ?";
-			pstmt = conn.prepareStatement(sql2);
-			pstmt.setLong(1, no);
-			rs = pstmt.executeQuery();
-			
-			while(rs.next()) {
-				oNo = rs.getInt(1);
-			}
-			
-			if(newONo == 0)  {
-				newONo = oNo + 1;
-			} else {
-				newONo += 1;
-			}
-			
-			System.out.println("ttt" + newONo);
-			
-
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		} finally {
-			try {
-				if(pstmt != null)
-					pstmt.close();
-
-				if(conn != null)
-					conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
-		}
-		return newONo;
-	}
-	
 	public void updateONo(int oNo, int gNo) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		
 		try {
 			conn = getConnection();
-			
-			System.out.println("paretn ono : " + oNo);
 
 			String sql = "update board set o_no =  o_no + 1 where g_no = ? and o_no > ?";
 
 			pstmt = conn.prepareStatement(sql);
-
 			pstmt.setLong(1, gNo);
 			pstmt.setLong(2, oNo);
 			
@@ -663,7 +568,7 @@ public class BoardRepository {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		int maxGroupNum = 0;
-		System.out.println("keyword : " + kwd);
+
 		try {
 			conn = getConnection();
 
@@ -671,7 +576,7 @@ public class BoardRepository {
 					"from(\r\n" + 
 					"select *, @curRank := @curRank + 1 AS rank\r\n" + 
 					"from board, (SELECT @curRank := 0) r\r\n" + 
-					"where title like concat('%', ?, '%')\r\n" + 
+					"where title like concat('%', ?, '%') and hit != -1\r\n" + 
 					"order by reg_date) b\r\n" + 
 					"order by b.rank desc"; 
 
@@ -682,12 +587,7 @@ public class BoardRepository {
 			
 			while(rs.next()) {
 				maxGroupNum = rs.getInt(1);
-			}
-			
-			
-			
-			System.out.println("ttt" + maxGroupNum);
-			
+			}			
 
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
@@ -706,17 +606,6 @@ public class BoardRepository {
 		return maxGroupNum;
 	}
 	
-	public Boolean findDepth(Long no) {
-		
-		
-		return true;
-		
-	}
-	
-	public int findGroupCnt() {
-		
-		return 0;
-	}
 	
 	private Connection getConnection() throws SQLException {
 		Connection conn = null;

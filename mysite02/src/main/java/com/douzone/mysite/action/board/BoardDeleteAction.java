@@ -15,17 +15,16 @@ public class BoardDeleteAction implements Action {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		Long no = Long.parseLong(request.getParameter("no")); // 게시판 번호
-		int gNo = Integer.parseInt(request.getParameter("gNno"));
+		Long no = Long.parseLong(request.getParameter("no"));
 		String password = request.getParameter("password");
-
-		// no에 해당하는 dedpth 구하는 쿼리
-		// 현재 no의 oNo에 +1한 depth 구하는 쿼리 
+		Boolean result = new BoardRepository().delete(no, password);
 		
-		new BoardRepository().findDepth(no);
-		new BoardRepository().delete(no, password);
-		
-		WebUtil.redirect(request.getContextPath() + "/board", request, response);
+		if(result) {
+			WebUtil.redirect(request.getContextPath() + "/board", request, response);
+		} else {
+			request.setAttribute("result", "fail");
+			WebUtil.forward("/WEB-INF/views/board/deleteform.jsp", request, response);
+		}
 
 	}
 

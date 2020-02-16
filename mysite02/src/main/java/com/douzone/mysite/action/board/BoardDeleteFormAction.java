@@ -15,7 +15,7 @@ public class BoardDeleteFormAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		
 		WebUtil.forward("/WEB-INF/views/board/deleteform.jsp", request, response);
-
+		
 	}
 
 }

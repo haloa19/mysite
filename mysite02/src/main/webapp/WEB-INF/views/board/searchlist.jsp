@@ -32,10 +32,12 @@
 						<th>&nbsp;</th>
 					</tr>	
 							
-					
+					<c:set var="i" value="0"/>
 					<c:forEach items="${list }" var="vo" varStatus="status">
 						<tr>
-							<td>${status.count + 5*(nowPage-1)}</td>		
+							
+							<td>${groupNum - (i + 5*(nowPage-1))}</td>	
+							<c:set var="i" value="${status.count }"/>	
 							<td style="text-align:left; padding-left:0px">
 							<a href="${ pageContext.request.contextPath }/board?a=view&no=${vo.no}">${vo.title }</a></td>
 							<td>${vo.name }</td>
@@ -46,7 +48,8 @@
 							</td>					
 							<c:if test="${ not empty authUser && authUser.no == vo.userNo }">
 								<td><a href="${pageContext.servletContext.contextPath }/board?a=deleteform&no=${vo.no}" class="del">삭제</a></td>
-							</c:if>					
+							</c:if>	
+									
 						</tr>					
 					</c:forEach>	
 					
