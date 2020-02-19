@@ -155,7 +155,7 @@ public class UserRepository {
 		return userVo;
 	}
 	
-	public Boolean update(UserVo vo) {
+	public UserVo update(UserVo vo) {
 		Boolean result = false;
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -192,7 +192,7 @@ public class UserRepository {
 			}
 
 		}
-		return result;
+		return vo;
 	}
 	
 	public Connection getConnection() throws SQLException {

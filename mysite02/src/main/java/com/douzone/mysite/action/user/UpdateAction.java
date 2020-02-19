@@ -33,6 +33,11 @@ public class UpdateAction implements Action {
 		
 		new UserRepository().update(userVo);
 		
+		UserVo authUser = new UserRepository().update(userVo);
+		
+		HttpSession session = request.getSession(true);
+		session.setAttribute("authUser", authUser);
+		
 		WebUtil.redirect(request.getContextPath(), request, response);
 	}
 
