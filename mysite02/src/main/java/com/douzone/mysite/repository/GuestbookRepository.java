@@ -167,20 +167,22 @@ public class GuestbookRepository {
 
 	}
 
-	private Connection getConnection() throws SQLException {
+	public Connection getConnection() throws SQLException {
 		Connection conn = null;
-
+		
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-
-			String url = "jdbc:mysql://127.0.0.1:3306/webdb";
-			conn = DriverManager.getConnection(url, "webdb", "webdb");		
-
-		} catch (ClassNotFoundException e) {
-			System.out.println("드라이버 로딩 실패:" + e);
-		} 
-
-		return conn;	
+			// 1. jdbc driver(myDriver) 로딩
+			Class.forName("org.mariadb.jdbc.Driver");			
+			// 2. 연결하기
+			String url = "jdbc:mysql://192.168.1.113:3307/webdb";
+			conn = DriverManager.getConnection(url, "webdb", "webdb");
+		}  catch (ClassNotFoundException e) {
+			System.out.println("드라이버 로딩 실패" + e);
+		} catch (SQLException e) {
+			System.out.println("error : " + e);
+		}
+		
+		return conn;
 	}
 
 
