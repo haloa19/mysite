@@ -74,11 +74,8 @@ public class BoardListAction implements Action {
 		request.setAttribute("totalPage", totalPage);
 		request.setAttribute("keyword", keyword);
 		
-		if(keyword != null) {
-			WebUtil.forward("/WEB-INF/views/board/searchlist.jsp", request, response);
-		} else {
-			WebUtil.forward("/WEB-INF/views/board/list.jsp", request, response);
-		}
+		WebUtil.forward("/WEB-INF/views/board/list.jsp", request, response);
+
 	}
 
 }

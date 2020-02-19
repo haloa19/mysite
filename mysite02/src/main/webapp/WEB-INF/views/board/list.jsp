@@ -18,6 +18,10 @@
 					<input type='hidden' name='a' value='list' />
 					<input type="text" id="kwd" name="kwd" value="">
 					<input type="submit" value="찾기">
+					<c:if test="${not empty keyword }">
+						<a href="${ pageContext.request.contextPath }/board">전체목록</a>
+					</c:if>
+					
 				</form>
 				<table class="tbl-ex">
 					<tr>
@@ -34,36 +38,10 @@
 					<c:forEach items="${list }" var="vo" varStatus="status">
 						<tr>
 						<c:choose>
-							<c:when test="${vo.hit == -1 }">
-								<c:if test="${vo.depth == 0}">
-									<td>${groupNum - (i + 5*(nowPage-1))}</td>
-									<c:set var="i" value="${i+1 }"/>
-								</c:if>	
-								<c:if test="${vo.depth != 0 }">
-									<td></td>
-								</c:if>					
-								<td style="text-align:left; padding-left:${30*vo.depth}px">
-								<c:if test="${vo.depth > 0}">
-									<img src="${pageContext.request.contextPath }/assets/images/reply.png"/>
-								</c:if>삭제된 글입니다.</td>
-								<td></td>
-								<td></td>
-								<td></td>		
-								<td></td>
-								<td></td>							
-							</c:when>
-							<c:otherwise>
-								<c:if test="${vo.depth == 0}">
-									<td>${groupNum - (i + 5*(nowPage-1))}</td>
-									<c:set var="i" value="${i+1 }"/>
-								</c:if>	
-								<c:if test="${vo.depth != 0 }">
-									<td></td>									
-								</c:if>					
-								<td style="text-align:left; padding-left:${30*vo.depth}px">
-								<c:if test="${vo.depth > 0}">
-									<img src="${pageContext.request.contextPath }/assets/images/reply.png"/>
-								</c:if>
+							<c:when test="${not empty keyword }">
+								<td>${groupNum - (i + 5*(nowPage-1))}</td>	
+								<c:set var="i" value="${status.count }"/>	
+								<td style="text-align:left; padding-left:0px">
 								<a href="${ pageContext.request.contextPath }/board?a=view&no=${vo.no}">${vo.title }</a></td>
 								<td>${vo.name }</td>
 								<td>${vo.hit }</td>
@@ -72,14 +50,57 @@
 									<a href="${ pageContext.request.contextPath }/board?a=writeform&kind=addwrite&no=${vo.no }&gNo=${ vo.gNo }&oNo=${vo.oNo}&depth=${vo.depth}">댓글</a>	
 								</td>					
 								<c:if test="${ not empty authUser && authUser.no == vo.userNo }">
-									<td><a href="${pageContext.servletContext.contextPath }/board?a=deleteform&no=${vo.no }&gNo=${vo.gNo}" class="del">삭제</a></td>
-								</c:if>	
+									<td><a href="${pageContext.servletContext.contextPath }/board?a=deleteform&no=${vo.no}" class="del">삭제</a></td>
+								</c:if>								
+							</c:when>
+							<c:otherwise>
+								<c:choose>
+									<c:when test="${vo.hit == -1 }">
+										<c:if test="${vo.depth == 0}">
+											<td>${groupNum - (i + 5*(nowPage-1))}</td>
+											<c:set var="i" value="${i+1 }"/>
+										</c:if>	
+										<c:if test="${vo.depth != 0 }">
+											<td></td>
+										</c:if>					
+										<td style="text-align:left; padding-left:${30*vo.depth}px">
+										<c:if test="${vo.depth > 0}">
+											<img src="${pageContext.request.contextPath }/assets/images/reply.png"/>
+										</c:if>삭제된 글입니다.</td>
+										<td></td>
+										<td></td>
+										<td></td>		
+										<td></td>
+										<td></td>							
+									</c:when>
+									<c:otherwise>
+										<c:if test="${vo.depth == 0}">
+											<td>${groupNum - (i + 5*(nowPage-1))}</td>
+											<c:set var="i" value="${i+1 }"/>
+										</c:if>	
+										<c:if test="${vo.depth != 0 }">
+											<td></td>									
+										</c:if>					
+										<td style="text-align:left; padding-left:${30*vo.depth}px">
+										<c:if test="${vo.depth > 0}">
+											<img src="${pageContext.request.contextPath }/assets/images/reply.png"/>
+										</c:if>
+										<a href="${ pageContext.request.contextPath }/board?a=view&no=${vo.no}">${vo.title }</a></td>
+										<td>${vo.name }</td>
+										<td>${vo.hit }</td>
+										<td>${vo.regDate }</td>		
+										<td>
+											<a href="${ pageContext.request.contextPath }/board?a=writeform&kind=addwrite&no=${vo.no }&gNo=${ vo.gNo }&oNo=${vo.oNo}&depth=${vo.depth}">댓글</a>	
+										</td>					
+										<c:if test="${ not empty authUser && authUser.no == vo.userNo }">
+											<td><a href="${pageContext.servletContext.contextPath }/board?a=deleteform&no=${vo.no }&gNo=${vo.gNo}" class="del">삭제</a></td>
+										</c:if>	
+									</c:otherwise>
+								</c:choose>									
 							</c:otherwise>
-						
-						</c:choose>				
+						</c:choose>		
 						</tr>					
-					</c:forEach>	
-					
+					</c:forEach>						
 				</table>
 				
 				<!-- pager 추가 -->
@@ -87,22 +108,22 @@
 					<ul>
 						<c:choose>
 							<c:when test="${nowPage == 1 }"><li>◁</li></c:when>
-							<c:otherwise><li><a href="${pageContext.servletContext.contextPath }/board?a=list&page=${nowPage-1 }&bpage=${beginPage}">◀</a></li></c:otherwise>
+							<c:otherwise><li><a href="${pageContext.servletContext.contextPath }/board?a=list&page=${nowPage-1 }&bpage=${beginPage}&keyword=${keyword}">◀</a></li></c:otherwise>
 						</c:choose>		
 							<c:forEach var="i" begin="${beginPage }" end="${endPage}">
 								<c:choose>
 									<c:when test="${nowPage == i }">
-										<li class="selected"><a href="${pageContext.servletContext.contextPath }/board?a=list&page=${i }">${i }</a></li>
+										<li class="selected"><a href="${pageContext.servletContext.contextPath }/board?a=list&page=${i }&keyword=${keyword}">${i }</a></li>
 									</c:when>
 									<c:otherwise>
-										<li><a href="${pageContext.servletContext.contextPath }/board?a=list&page=${i }">${i }</a></li>
+										<li><a href="${pageContext.servletContext.contextPath }/board?a=list&page=${i }&keyword=${keyword}">${i }</a></li>
 									</c:otherwise>			
 								</c:choose>	
 												
 							</c:forEach>
 						<c:choose>
 							<c:when test="${endPage == totalPage && nowPage == totalPage }"><li>▷</li></c:when>
-							<c:otherwise><li><a href="${pageContext.servletContext.contextPath }/board?a=list&page=${nowPage+1 }&bpage=${beginPage}">▶</a></li></c:otherwise>
+							<c:otherwise><li><a href="${pageContext.servletContext.contextPath }/board?a=list&page=${nowPage+1 }&bpage=${beginPage}&keyword=${keyword}">▶</a></li></c:otherwise>
 						</c:choose>	
 						
 					</ul>
