@@ -1,7 +1,6 @@
 package com.douzone.mysite.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -9,9 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.douzone.mysite.action.board.BoardActionFactory;
-import com.douzone.mysite.action.guestbook.GuestbookActionFactory;
-import com.douzone.mysite.repository.GuestbookRepository;
-import com.douzone.mysite.vo.GuestbookVo;
 import com.douzone.web.action.Action;
 import com.douzone.web.action.ActionFactory;
 

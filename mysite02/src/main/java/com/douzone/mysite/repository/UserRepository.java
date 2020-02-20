@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.douzone.mysite.vo.GuestbookVo;
 import com.douzone.mysite.vo.UserVo;
 
 

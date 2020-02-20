@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.douzone.mysite.repository.BoardRepository;
-import com.douzone.mysite.repository.GuestbookRepository;
 import com.douzone.web.action.Action;
 import com.douzone.web.util.WebUtil;
 

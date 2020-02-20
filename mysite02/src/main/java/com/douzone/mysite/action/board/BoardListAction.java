@@ -18,14 +18,10 @@ public class BoardListAction implements Action {
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		// 0. 게시판 처음 접속 시 무조건 1페이지 요청
 		int maxGroup = 0;
-		String keyword = request.getParameter("kwd"); // 검색어가 있는 경우 검색어를 처음 가져올때
-		String keyword2 = request.getParameter("keyword");  // 검색어가 있고 페이지 전환이 있는 경우 (kwd로 가져온 값은 null이 되기 때문에)
+		String keyword = request.getParameter("kwd"); // 검색어가 있는 경우 검색어를 처음 가져올때 + 검색어가 있고 페이지 전환이 있는 경우
 	
 		// 1. 검색어 유무에 따른 group개수
 		if(keyword != null) { // 처음 검색해서 keyword가 존재하는 경우
-			maxGroup = new BoardRepository().findByKeyWordMaxGroup(keyword);
-		} else if(keyword2 != null) { // 검색 후 페이지 전환 했을 경우
-			keyword = keyword2;
 			maxGroup = new BoardRepository().findByKeyWordMaxGroup(keyword);
 		} else { // 검색 없이 전체 리스트
 			maxGroup = new BoardRepository().maxGroupNum();
@@ -47,7 +43,7 @@ public class BoardListAction implements Action {
 			}
 			
 			// 3-1-1. 검색어가 있는 경우
-			if(keyword != null || keyword2 != null) {
+			if(keyword != null) {
 				list = new BoardRepository().findByKeyWord(Integer.parseInt(request.getParameter("page")), maxGroup, keyword);
 			} else { // 3-1-2. 검색어가 없는 경우
 				list = new BoardRepository().findAll(nowPage, maxGroup);
