@@ -6,17 +6,17 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 
-@WebListener
+//@WebListener
 public class ContextLoadListener implements ServletContextListener {	
    
-	public void contextDestroyed(ServletContextEvent servletContextEvent)  { 
+	public void contextInitialized(ServletContextEvent servletContextEvent)  { 
 		ServletContext context = servletContextEvent.getServletContext(); // context는 전역
 		String contextConfigLocation = context.getInitParameter("contextConfigLocation");
 		
 		System.out.println("Application Starts..." + contextConfigLocation);
     }
 
-    public void contextInitialized(ServletContextEvent arg0)  { 
+    public void contextDestroyed(ServletContextEvent arg0)  { 
 
     }
 	
