@@ -15,7 +15,7 @@
 		<div id="content">
 			<div id="user">
 
-				<form id="update-form" name="updateForm" method="post" action="${ pageContext.request.contextPath }/user">
+				<form id="join-form" name="joinForm" method="post" action="${ pageContext.request.contextPath }/user">
 					<input type='hidden' name='a' value='update' />
 				
 					<input type='hidden' name='no' value='${ authUser.no }' />
