@@ -53,11 +53,10 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
-	public String logout(HttpSession session) {
-		
+	public String logout(HttpSession session) {		
 		//////////////////////////접근제어/////////////////////////////////
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser != null) {
+		if(authUser == null) {
 			return "redirect:/";
 		}
         /////////////////////////////////////////////////////////////////
