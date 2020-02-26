@@ -38,7 +38,7 @@
 				<div class="bottom">
 					<a href="${pageContext.servletContext.contextPath }/board">글목록</a>
 					<c:if test="${ not empty authUser && authUser.no == listNo.userNo }">
-						<a href="${pageContext.servletContext.contextPath }/board?a=modifyform&no=${listNo.no}">글수정</a>
+						<a href="${pageContext.servletContext.contextPath }/board/modify/${listNo.no}">글수정</a>
 					</c:if>
 					
 				</div>

@@ -25,9 +25,25 @@ public class GuestbookService {
 		return count == 1;
 	}
 
-	public boolean delete(Long no, String password) {
-		int count = guestbookRepository.delete(no, password);
-		return count == 1;		
+	public void delete(Long no, String password) {
+		String correctPassword = findPassword(no);
+		
+		if(password.equals(correctPassword)) {
+			guestbookRepository.delete(no);			
+		}
+	}
+	
+	public String findPassword(Long no) {
+		String password = null;
+		List<GuestbookVo> list = guestbookRepository.findAll();
+
+		for(GuestbookVo vo : list) {
+			if(vo.getNo() == no) {
+				password = vo.getPassword();
+				break;
+			}
+		}
+		return password;
 	}
 
 }

@@ -28,9 +28,7 @@ public class UserController {
 	
 	@RequestMapping(value="/join", method=RequestMethod.POST)
 	public String join(UserVo vo) {
-		System.out.println(vo);
 		userService.join(vo);
-		System.out.println(vo);
 		return "redirect:/user/joinsuccess";
 	}
 	
@@ -85,25 +83,20 @@ public class UserController {
 		return "user/update";
 	}
 	
-//	@RequestMapping(value="/update", method=RequestMethod.POST)
-//	public String update(HttpSession session, UserVo userVo) {
-//		//////////////////////////접근제어/////////////////////////////////
-//		UserVo authUser = (UserVo)session.getAttribute("authUser");
-//		if(authUser == null) {
-//			return "redirect:/";
-//		}
-//        /////////////////////////////////////////////////////////////////
-//
-//		userVo.setNo(authUser.getNo());
-//		authUser = userService.updateInfo(userVo);
-//		
-//		session.setAttribute("authUser", authUser);	
-//		return "redirect:/";
-//	}
-//	GlobalException으로 변경
-//	@ExceptionHandler(Exception.class)
-//	public String handleException() {
-//		return "error/exception";
-//	}
+	@RequestMapping(value="/update", method=RequestMethod.POST)
+	public String update(HttpSession session, UserVo userVo) {
+		//////////////////////////접근제어/////////////////////////////////
+		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		if(authUser == null) {
+			return "redirect:/";
+		}
+        /////////////////////////////////////////////////////////////////
+
+		userVo.setNo(authUser.getNo());
+		userService.updateUser(userVo);
+		authUser = userService.getUser(authUser.getNo());		
+		session.setAttribute("authUser", authUser);	
+		return "redirect:/";
+	}
 	
 }
