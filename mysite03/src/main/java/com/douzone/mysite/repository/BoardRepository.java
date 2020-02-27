@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.douzone.mysite.vo.BoardVo;
 
 @Repository
-public class BoardRepository {
+public class BoardRepository { 
 	
 	@Autowired
 	private SqlSession sqlSession;	
@@ -51,7 +51,7 @@ public class BoardRepository {
 	}
 	
 	public int update(BoardVo boardVo) {
-		return sqlSession.delete("board.update", boardVo);
+		return sqlSession.update("board.update", boardVo);
 	}
 
 }
