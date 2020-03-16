@@ -42,7 +42,6 @@ public class UserController {
 	@Auth
 	@RequestMapping(value="/update", method=RequestMethod.GET)
 	public String update(@AuthUser UserVo authUser, Model model) {  //@AuthUser UserVo authUser
-		System.out.println(authUser);
 		Long no = authUser.getNo();
 		UserVo vo = userService.getUser(no);		
 		model.addAttribute("userVo", vo);
@@ -52,7 +51,7 @@ public class UserController {
 	
 	@Auth
 	@RequestMapping(value="/update", method=RequestMethod.POST)
-	public String update(@AuthUser UserVo authUser, UserVo userVo) {
+	public String update(@AuthUser UserVo authUser, UserVo userVo) {	
 		userVo.setNo(authUser.getNo());
 		userService.updateUser(userVo);
 		authUser.setName(userVo.getName());
