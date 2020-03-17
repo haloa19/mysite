@@ -25,8 +25,7 @@ public class SiteService {
 	}
 
 	public void updateSiteInfo(SiteVo vo) {
-		siteRepository.updateInfo(vo);
-		
+		siteRepository.updateInfo(vo);		
 	}
 
 	public String restore(MultipartFile multipartFile) {

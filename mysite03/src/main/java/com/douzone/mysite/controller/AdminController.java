@@ -24,7 +24,7 @@ public class AdminController {
 	private SiteService siteService;
 	
 	@RequestMapping("")
-	public String main(@AuthUser SiteVo authSite, Model model) {
+	public String main(Model model) {
 		SiteVo vo = siteService.getSiteInfo();
 		model.addAttribute("siteVo", vo);
 		return "admin/main";
@@ -32,10 +32,9 @@ public class AdminController {
 	
 	@RequestMapping(value="/main/update", method=RequestMethod.POST)
 	public String update(
-			@ModelAttribute SiteVo siteVo,
-			@RequestParam(value="file1") MultipartFile multipartFile,
-			Model model) {
-		if(siteVo.getProfile() == null) {
+			SiteVo siteVo,
+			@RequestParam(value="file1") MultipartFile multipartFile) {
+		if(multipartFile.isEmpty()) {
 	 		SiteVo vo = siteService.getSiteInfo();
 	 		siteVo.setProfile(vo.getProfile());
 		} else {
