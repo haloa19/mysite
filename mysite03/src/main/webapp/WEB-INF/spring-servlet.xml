@@ -83,7 +83,7 @@
 	</bean>
 	
 	<!-- mvc resources -->
-	<mvc:resources location="file:/mysite-uploads/" mapping="/assets/images/**"/>
+	<mvc:resources location="file:/mysite-uploads/" mapping="/images/**"/>
 	
 	<context:annotation-config />
 	<context:component-scan base-package="com.douzone.mysite.controller, com.douzone.mysite.exception" />
