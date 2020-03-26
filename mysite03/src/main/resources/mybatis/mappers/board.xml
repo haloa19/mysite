@@ -12,7 +12,7 @@
 			</when>
 			<otherwise>
 				<![CDATA[
-				select max(b.rank) 
+				select COALESCE(max(b.rank), 0) 
 				  from(
 					select *, @curRank := @curRank + 1 as rank
 					from board, (SELECT @curRank := 0) r
