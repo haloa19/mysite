@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.douzone.mysite.dto.JsonResult;
 import com.douzone.mysite.service.GuestbookService;
 import com.douzone.mysite.vo.GuestbookVo;
 
@@ -40,6 +41,11 @@ public class GuestbookController {
 	public String delete(@PathVariable("no") Long no, @RequestParam(value="password", required=true, defaultValue="") String password) {
 		guestbookService.delete(no, password);
 		return "redirect:/guestbook";
+	}
+	
+	@RequestMapping(value= {"/spa"}, method=RequestMethod.GET)
+	public String indexSpa(Model model) {
+		return "guestbook/index-spa";
 	}
 
 }

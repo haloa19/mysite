@@ -46,4 +46,9 @@ public class GuestbookService {
 		return password;
 	}
 
+	public List<GuestbookVo> getMessageList(Long startNo) {
+		return guestbookRepository.findAll(startNo);
+		
+	}
+
 }
