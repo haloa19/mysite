@@ -33,6 +33,11 @@ public class GuestbookRepository {
 
 		return sqlSession.selectList("guestbook.findAllByNo", startNo);	
 	}
+
+	public int deleteSpa(GuestbookVo guestbookVo) {
+		
+		return sqlSession.delete( "guestbook.deleteSpa", guestbookVo);
+	}
 	
 
 }
