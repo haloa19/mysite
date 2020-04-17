@@ -36,6 +36,9 @@
 			into guestbook
 		values(null, #{name }, #{contents }, #{password }, now())
 		]]>
+		<selectKey keyProperty="no" resultType="long" order="AFTER">
+			select last_insert_id()
+		</selectKey>
 	</insert>
 	
 	<delete id="delete" parameterType="long">
@@ -44,6 +47,34 @@
 		from guestbook 
 		where no= #{no }
 		]]>
+	</delete>
+	
+	<select id="findAllByNo" parameterType="long" resultType="guestbookvo">
+		<![CDATA[
+		select no,
+			   name, 
+			   date_format(ng_date,'%Y-%m-%d %h:%i:%s') as regDate, 
+			   contents, 
+			   password 
+	    from guestbook 
+	    ]]>	
+	    <if test="_parameter > 0">
+	    	<![CDATA[
+	    		where no < #{no}
+	    	]]>
+	    </if>
+	    <![CDATA[
+	    order by no desc
+	    limit 0, 3
+	    ]]>
+	</select>
+	
+	<delete id="deleteSpa" parameterType="guestbookvo">
+		<![CDATA[
+		delete 
+		  from guestbook 
+		 where no = #{no } and password = #{password }
+		]]>	
 	</delete>
 	
 </mapper>

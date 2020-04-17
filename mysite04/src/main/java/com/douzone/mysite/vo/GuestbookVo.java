@@ -9,6 +9,14 @@ public class GuestbookVo {
 	private String password;
 	private Timestamp regDate;
 	
+	public GuestbookVo() {
+	}
+	
+	public GuestbookVo(Long no, String password) {
+		this.no = no;
+		this.password = password;
+	}
+	
 	public Long getNo() {
 		return no;
 	}
@@ -44,6 +52,5 @@ public class GuestbookVo {
 		return "GuestBookVo [no=" + no + ", name=" + name + ", contents=" + contents + ", password=" + password
 				+ ", regDate=" + regDate + "]";
 	}
-	
-	
-	}
+		
+}

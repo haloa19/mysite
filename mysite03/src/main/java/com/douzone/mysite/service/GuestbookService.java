@@ -51,8 +51,7 @@ public class GuestbookService {
 		
 	}
 
-	public Boolean deleteSpa(Long no, String password) {
-		
+	public Boolean deleteSpa(Long no, String password) {	
 		return 1 == guestbookRepository.deleteSpa( new GuestbookVo(no, password) );
 	}
 

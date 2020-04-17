@@ -46,4 +46,12 @@ public class GuestbookService {
 		return password;
 	}
 
+	public List<GuestbookVo> getMessageList(Long startNo) {
+		return guestbookRepository.findAll(startNo);
+		
+	}
+
+	public Boolean deleteSpa(Long no, String password) {	
+		return 1 == guestbookRepository.deleteSpa( new GuestbookVo(no, password) );
+	}
 }
