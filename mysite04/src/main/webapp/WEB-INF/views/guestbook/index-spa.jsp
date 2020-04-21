@@ -213,8 +213,8 @@ $(function(){
 				
 				// rendering
 				// render(response.data, true);
-				var html = listTemplate.render(response);
-				$("#list-guestbook").append(html);
+				var html = listItemTemplate.render(response.data);
+				$("#list-guestbook").prepend(html);
 				
 				// form reset
 				$("#add-form")[0].reset();	// 유사배열(= get(0))
