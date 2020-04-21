@@ -62,20 +62,18 @@ var messageBox = function(title, message, callback) {
 var render = function(vo, mode){
 	var html = 
 		"<li data-no='" + vo.no + "'>" + 
-		"<strong>" + vo.name + "</strong>" + 
-		"<p>" + vo.contents.replace(/\n/gi, "<br>") + "</p>" + 
-		"<strong></strong>" + 
-		"<a href='' data-no='" + vo.no + "'>삭제</a>" + 
+		"   <strong>" + vo.name + "</strong>" + 
+		"   <p>" + vo.contents.replace(/\n/gi, "<br>") + "</p>" + 
+		"   <strong></strong>" + 
+		"   <a href='' data-no='" + vo.no + "'>삭제</a>" +
 		"</li>";
-		
+	
 	if(mode){
 		$("#list-guestbook").prepend(html);
 	} else {
 		$("#list-guestbook").append(html);
 	}
-	
 //	$("#list-guestbook")[mode ? "prepend" : "append"](html);
-
 }
 
 var fetchList = function(){
@@ -213,8 +211,8 @@ $(function(){
 				
 				// rendering
 				// render(response.data, true);
-				var html = listTemplate.render(response);
-				$("#list-guestbook").append(html);
+				var html = listItemTemplate.render(response.data);
+				$("#list-guestbook").prepend(html);
 				
 				// form reset
 				$("#add-form")[0].reset();	// 유사배열(= get(0))
